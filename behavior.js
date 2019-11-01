@@ -1,21 +1,20 @@
-const SPEED = 10;
+const SPEED = 300;
 const PRE_READ = 10;
-const TEXTS = ["Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."]
+const TEXTS = ["Die Kritik nach dem CDU-Debakel in Thüringen an Angela Merkel wächst. Zwar hat die Kanzlerin die Führung der Partei vor einem Jahr an Annegreat Kramp-Karrenbauer angegeben. Doch das tatenlose Zusehen der Demontage ihrer Wunschnachfolgerin beunruhigt immer mehr Christdemokraten. Trigema-Chef Wolfgang Grupp erklärt, welche Voraussetzungen für einen Generationenwechsel unabdingbar sind – in der Wirtschaft sowohl als auch in der Politik. Von FOCUS-Online-Redakteur Ulf Lüdeke"];
 
-
-counter = 0;
 
 function telepromter(text){
     var text = text.split(" ");
-    var display = document.getElementById("display");
+    display = document.getElementById("display");
+    display.innerHTML = text.map(x => `<span>${x}</span>`).join(" ");
+    let x = 0;
+    let speed = SPEED;
     var intervall = setInterval(function(){
-        var slice = text.slice(counter, counter+PRE_READ);
-        display.innerHTML = "<div class='highlight'>" + slice.shift() + "</div> " + slice.join(" ");
-        console.log(counter);
-        if (++counter == text.length){
-            clearInterval(intervall);
-        }
-    }, SPEED);
+        const child = display.children[x];
+        child.className = "highlight";
+        window.scrollTo({left: display.children[x].getBoundingClientRect().x + window.scrollX - 300, behavior: 'smooth'});
+        x++;
+    }, speed);
 }
 
 document.onclick = function(){
